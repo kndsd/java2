@@ -1,0 +1,25 @@
+public class PedidoLocal extends Pedido implements Pagamento {
+
+    public PedidoLocal(int numeroPedido, String nomeCliente, double valorPedido) {
+        super(numeroPedido, nomeCliente, valorPedido);
+    }
+
+    @Override
+    public double processarPagamento(double valor) {
+        System.out.println("Pagamento em dinheiro no valor de R$ " + valor + " processado.");
+        return valor;
+    }
+
+    @Override
+    public double processarPagamento(double valor, String chavePix) {
+        System.out.println("Pagamento via PIX (Chave: " + chavePix + ") no valor de R$ " + valor + " processado.");
+        return valor;
+    }
+
+    @Override
+    public double processarPagamento(double valor, int parcelas) {
+        double valorParcela = valor / parcelas;
+        System.out.println("Pagamento com cartão em " + parcelas + "x de R$ " + valorParcela + " (Total: R$ " + valor + ") processado.");
+        return valor;
+    }
+}

@@ -1,0 +1,60 @@
+public class PedidoDelivery extends Pedido implements Pagamento {
+    private String endereco;
+    private double taxaEntrega;
+
+    public PedidoDelivery(int numeroPedido, String nomeCliente, double valorPedido, String endereco, double taxaEntrega) {
+        super(numeroPedido, nomeCliente, valorPedido);
+        this.endereco = endereco;
+        this.taxaEntrega = taxaEntrega;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public double getTaxaEntrega() {
+        return taxaEntrega;
+    }
+
+    public void setTaxaEntrega(double taxaEntrega) {
+        this.taxaEntrega = taxaEntrega;
+    }
+
+    public double getValorTotalDelivery() {
+        return getValorPedido() + this.taxaEntrega;
+    }
+
+    @Override
+    public double processarPagamento(double valor) {
+        double total = valor + this.taxaEntrega;
+        System.out.println("Pagamento em dinheiro (com taxa de entrega de R$ " + this.taxaEntrega + ") totalizou R$ " + total);
+        return total;
+    }
+
+    @Override
+    public double processarPagamento(double valor, String chavePix) {
+        double total = valor + this.taxaEntrega;
+        System.out.println("Pagamento via PIX (Chave: " + chavePix + ") com taxa totalizou R$ " + total);
+        return total;
+    }
+
+    @Override
+    public double processarPagamento(double valor, int parcelas) {
+        double total = valor + this.taxaEntrega;
+        double valorParcela = total / parcelas;
+        System.out.println("Pagamento no cartão (com taxa) em " + parcelas + "x de R$ " + valorParcela + " (Total: R$ " + total + ")");
+        return total;
+    }
+
+    @Override
+    public void exibirDados() {
+        super.exibirDados();
+        System.out.println("Endereço de Entrega: " + this.endereco);
+        System.out.println("Taxa de Entrega: R$ " + this.taxaEntrega);
+        System.out.println("Valor Total (Pedido + Taxa): R$ " + getValorTotalDelivery());
+    }
+}

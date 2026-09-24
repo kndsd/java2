@@ -1,0 +1,117 @@
+import java.util.Scanner;
+
+public class Principal {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Pedido pedido = null;
+        Pagamento pagamento = null;
+
+        while (true) {
+            System.out.println("\n--- SISTEMA DE PEDIDOS ---");
+            System.out.println("1 - Cadastrar Pedido");
+            System.out.println("2 - Escolher Tipo de Pedido (Local / Delivery)");
+            System.out.println("3 - Mostrar Dados do Pedido");
+            System.out.println("4 - Escolher Forma de Pagamento");
+            System.out.println("5 - Pagar em Dinheiro");
+            System.out.println("6 - Pagar via PIX");
+            System.out.println("7 - Pagar com Cartão");
+            System.out.println("8 - Encerrar o Programa");
+            System.out.print("Opção: ");
+            int opcao = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opcao) {
+                case 1:
+                    System.out.println("Utilize a opção 2 para cadastrar o pedido escolhendo a modalidade.");
+                    break;
+
+                case 2:
+                    System.out.print("Número do Pedido: ");
+                    int numero = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.print("Nome do Cliente: ");
+                    String nome = scanner.nextLine();
+
+                    System.out.print("Valor do Pedido: ");
+                    double valor = scanner.nextDouble();
+                    scanner.nextLine();
+
+                    System.out.println("Selecione a modalidade (1 - Pedido Local | 2 - Pedido Delivery): ");
+                    int tipo = scanner.nextInt();
+                    scanner.nextLine();
+
+                    if (tipo == 1) {
+                        PedidoLocal pl = new PedidoLocal(numero, nome, valor);
+                        pedido = pl;
+                        pagamento = pl;
+                        System.out.println("Pedido Local cadastrado com sucesso!");
+                    } else if (tipo == 2) {
+                        System.out.print("Endereço de Entrega: ");
+                        String endereco = scanner.nextLine();
+                        System.out.print("Taxa de Entrega: ");
+                        double taxa = scanner.nextDouble();
+                        scanner.nextLine();
+
+                        PedidoDelivery pd = new PedidoDelivery(numero, nome, valor, endereco, taxa);
+                        pedido = pd;
+                        pagamento = pd;
+                        System.out.println("Pedido Delivery cadastrado com sucesso!");
+                    } else {
+                        System.out.println("Tipo inválido.");
+                    }
+                    break;
+
+                case 3:
+                    if (pedido != null) {
+                        pedido.exibirDados();
+                    } else {
+                        System.out.println("Nenhum pedido cadastrado.");
+                    }
+                    break;
+
+                case 4:
+                    System.out.println("Formas de pagamento disponíveis no menu: 5 (Dinheiro), 6 (PIX), 7 (Cartão).");
+                    break;
+
+                case 5:
+                    if (pagamento != null) {
+                        pagamento.processarPagamento(pedido.getValorPedido());
+                    } else {
+                        System.out.println("Cadastre um pedido primeiro.");
+                    }
+                    break;
+
+                case 6:
+                    if (pagamento != null) {
+                        System.out.print("Informe a chave PIX: ");
+                        String chave = scanner.nextLine();
+                        pagamento.processarPagamento(pedido.getValorPedido(), chave);
+                    } else {
+                        System.out.println("Cadastre um pedido primeiro.");
+                    }
+                    break;
+
+                case 7:
+                    if (pagamento != null) {
+                        System.out.print("Informe a quantidade de parcelas: ");
+                        int parcelas = scanner.nextInt();
+                        scanner.nextLine();
+                        pagamento.processarPagamento(pedido.getValorPedido(), parcelas);
+                    } else {
+                        System.out.println("Cadastre um pedido primeiro.");
+                    }
+                    break;
+
+                case 8:
+                    System.out.println("Encerrando o sistema...");
+                    scanner.close();
+                    System.exit(0);
+                    break;
+
+                default:
+                    System.out.println("Opção inválida!");
+            }
+        }
+    }
+}
