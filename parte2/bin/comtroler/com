@@ -1,0 +1,47 @@
+
+import java.util.List;
+
+public class ProdutoController {
+    private TelaProduto view;
+    private ProdutoDAO dao;
+
+    public ProdutoController(TelaProduto view) {
+        this.view = view;
+        this.dao = new ProdutoDAO();
+    }
+
+    public void salvarProduto() {
+        try {
+            int id = Integer.parseInt(view.getTxtId().getText());
+            String nome = view.getTxtNome().getText();
+            String categoria = view.getTxtCategoria().getText();
+            double preco = Double.parseDouble(view.getTxtPreco().getText());
+            int estoque = Integer.parseInt(view.getTxtEstoque().getText());
+
+            Produto p = new Produto(id, nome, categoria, preco, estoque);
+            dao.salvar(p);
+            view.exibirMensagem("Produto salvo com sucesso!");
+            listarProdutos();
+        } catch (NumberFormatException e) {
+            view.exibirMensagem("Erro nos campos numéricos!");
+        }
+    }
+
+    public void listarProdutos() {
+        List<Produto> lista = dao.listar();
+        view.atualizarListaNaTela(lista);
+    }
+
+    public void removerProduto() {
+        try {
+            int id = Integer.parseInt(view.getTxtId().getText());
+            dao.remover(id);
+            view.exibirMensagem("Produto removido.");
+            listarProdutos();
+        } catch (NumberFormatException e) {
+            view.exibirMensagem("Informe um ID válido para remover.");
+        }
+    }
+    
+    // Métodos similares para Alterar e Pesquisar podem ser adicionados seguindo a mesma estrutura
+}

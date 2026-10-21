@@ -1,0 +1,21 @@
+// pacote dao
+import java.util.ArrayList;
+import java.util.List;
+
+public class UsuarioDAO {
+    // Simulando banco de dados com dados fixos para o Login
+    private static List<Usuario> usuariosDB = new ArrayList<>();
+
+    static {
+        usuariosDB.add(new Usuario("admin", "1234"));
+    }
+
+    public boolean validarLogin(String login, String senha) {
+        for (Usuario u : usuariosDB) {
+            if (u.getLogin().equals(login) && u.getSenha().equals(senha)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}

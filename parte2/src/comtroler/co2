@@ -1,0 +1,22 @@
+public class LoginController {
+    private TelaLogin view;
+    private UsuarioDAO dao;
+
+    public LoginController(TelaLogin view) {
+        this.view = view;
+        this.dao = new UsuarioDAO();
+    }
+
+    public void autenticar() {
+        String user = view.getTxtUsuario().getText();
+        String pass = new String(view.getTxtSenha().getPassword());
+
+        if (dao.validarLogin(user, pass)) {
+            view.exibirMensagem("Login realizado com sucesso!");
+            view.dispose(); // Fecha a tela de login
+            new TelaProduto().setVisible(true); // Abre a tela principal
+        } else {
+            view.exibirMensagem("Usuário ou senha inválidos.");
+        }
+    }
+}

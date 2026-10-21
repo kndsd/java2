@@ -1,0 +1,37 @@
+import javax.swing.*;
+import java.awt.GridLayout;
+
+public class TelaProduto extends JFrame {
+    private ProdutoController controller = new ProdutoController();
+
+    public TelaProduto() {
+        setLayout(new GridLayout(7, 2));
+        setSize(400, 300);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        JTextField txtId = new JTextField(), txtNome = new JTextField(), txtCat = new JTextField();
+        JTextField txtPreco = new JTextField(), txtEst = new JTextField();
+        JButton btnAdd = new JButton("Salvar"), btnRem = new JButton("Remover"), btnList = new JButton("Listar");
+
+        add(new JLabel("ID:")); add(txtId);
+        add(new JLabel("Nome:")); add(txtNome);
+        add(new JLabel("Categoria:")); add(txtCat);
+        add(new JLabel("Preço:")); add(txtPreco);
+        add(new JLabel("Estoque:")); add(txtEst);
+        add(btnAdd); add(btnRem);
+        add(btnList);
+
+        // Ações dos botões simplificadas
+        btnAdd.addActionListener(e -> {
+            controller.adicionar(new Produto(Integer.parseInt(txtId.getText()), txtNome.getText(), txtCat.getText(), Double.parseDouble(txtPreco.getText()), Integer.parseInt(txtEst.getText())));
+            JOptionPane.showMessageDialog(this, "Salvo!");
+        });
+
+        btnRem.addActionListener(e -> {
+            controller.excluir(Integer.parseInt(txtId.getText()));
+            JOptionPane.showMessageDialog(this, "Removido!");
+        });
+
+        btnList.addActionListener(e -> JOptionPane.showMessageDialog(this, controller.listarTodos()));
+    }
+}

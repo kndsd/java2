@@ -1,0 +1,57 @@
+// pacote dao
+import java.util.ArrayList;
+import java.util.List;
+
+public class UsuarioDAO {
+    // Simulando banco de dados com dados fixos para o Login
+    private static List<Usuario> usuariosDB = new ArrayList<>();
+
+    static {
+        usuariosDB.add(new Usuario("admin", "1234"));
+    }
+
+    public boolean validarLogin(String login, String senha) {
+        for (Usuario u : usuariosDB) {
+            if (u.getLogin().equals(login) && u.getSenha().equals(senha)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ProdutoDAO {
+    // Simulando tabela de produtos no banco
+    private static List<Produto> produtosDB = new ArrayList<>();
+
+    public void salvar(Produto produto) {
+        produtosDB.add(produto);
+    }
+
+    public List<Produto> listar() {
+        return produtosDB;
+    }
+
+    public void alterar(Produto produtoAtualizado) {
+        for (int i = 0; i < produtosDB.size(); i++) {
+            if (produtosDB.get(i).getId() == produtoAtualizado.getId()) {
+                produtosDB.set(i, produtoAtualizado);
+                break;
+            }
+        }
+    }
+
+    public void remover(int id) {
+        produtosDB.removeIf(p -> p.getId() == id);
+    }
+
+    public Produto pesquisarPorId(int id) {
+        for (Produto p : produtosDB) {
+            if (p.getId() == id) return p;
+        }
+        return null;
+    }
+}

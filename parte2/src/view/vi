@@ -1,0 +1,41 @@
+// pacote view
+import javax.swing.*;
+import java.awt.*;
+
+public class TelaLogin extends JFrame {
+    private JTextField txtUsuario;
+    private JPasswordField txtSenha;
+    private JButton btnEntrar;
+    private LoginController controller;
+
+    public TelaLogin() {
+        setTitle("Login do Sistema");
+        setSize(300, 150);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new GridLayout(3, 2));
+
+        add(new JLabel("Usuário:"));
+        txtUsuario = new JTextField();
+        add(txtUsuario);
+
+        add(new JLabel("Senha:"));
+        txtSenha = new JPasswordField();
+        add(txtSenha);
+
+        btnEntrar = new JButton("Entrar");
+        add(btnEntrar);
+
+        controller = new LoginController(this);
+
+        btnEntrar.addActionListener(e -> controller.autenticar());
+        setLocationRelativeTo(null);
+    }
+
+    public JTextField getTxtUsuario() { return txtUsuario; }
+    public JPasswordField getTxtSenha() { return txtSenha; }
+    public void exibirMensagem(String msg) { JOptionPane.showMessageDialog(this, msg); }
+
+    public static void main(String[] args) {
+        new TelaLogin().setVisible(true);
+    }
+}
